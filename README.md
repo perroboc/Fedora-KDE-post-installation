@@ -139,7 +139,7 @@ sudo dnf install steam
 
 
 ```
-desktop-file-install --dir=$HOME/.local/share/applications --set-key=Exec --set-value="env STEAM_FORCE_DESKTOPUI_SCALING=2.0 /usr/bin/steam %U" /usr/share/applications/steam.desktop
+desktop-file-install --dir=$HOME/.local/share/applications --set-key=Exec --set-value="env STEAM_FORCE_DESKTOPUI_SCALING=1.75 /usr/bin/steam %U" /usr/share/applications/steam.desktop
 update-desktop-database $HOME/.local/share/applications
 ```
 ## Remove Plasma 6 Bloat
