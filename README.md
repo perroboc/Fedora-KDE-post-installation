@@ -144,9 +144,8 @@ sudo dnf group remove libreoffice
 sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpat kolourpaint kontact kde-connect kmail korganizer kaddressbook akregator krdc krfb mediawriter im-chooser kgpg kmouth kmousetool neochat skanpage plasma-welcome
 ```
 
-
 ## Fixes
-
+The following is completely optional, but have saved me from time to time...
 
 ### Can't access some websites
 
