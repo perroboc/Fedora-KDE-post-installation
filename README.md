@@ -1,5 +1,14 @@
 # Fedora-KDE-post-installation
 
+## Settings
+
+Generate SSH keys
+```
+ssh-keygen -t rsa
+```
+
+Optionally add them to [GitHub](https://github.com/settings/ssh/new)
+
 ## Applications
 ### 1Password
 
