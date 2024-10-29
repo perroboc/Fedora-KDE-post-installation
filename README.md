@@ -150,6 +150,13 @@ sudo dnf group remove libreoffice
 sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpat kolourpaint kontact kde-connect kmail korganizer kaddressbook akregator krdc krfb mediawriter im-chooser kgpg kmouth kmousetool neochat skanpage plasma-welcome kdebugsettings krdp
 ```
 
+## Flatpak
+
+- Vesktop (Discord alternative with good wayland integration)
+- Haruna (Cool video player)
+- Heroic Games Launcher (Install games from GOG, Epic, and Amazon)
+- JamesDSP (Equalizer!)
+  
 ## Fixes
 The following is completely optional, but have saved me from time to time...
 
