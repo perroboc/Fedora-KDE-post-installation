@@ -156,6 +156,8 @@ sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpa
 - Haruna (Cool video player)
 - Heroic Games Launcher (Install games from GOG, Epic, and Amazon)
 - JamesDSP (Equalizer!)
+- OnlyOffice (VERY similar to Microsoft Office, and works great)
+- Would recommend 1password and firefox, too, but they don't talk with each other through flatpak (yet)
   
 ## Fixes
 The following is completely optional, but have saved me from time to time...
