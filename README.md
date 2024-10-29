@@ -135,7 +135,7 @@ sudo fwupdmgr update
 ```
 sudo dnf install steam
 ```
-#### Fix for HiDPI resolution set to 2x
+#### Fix for HiDPI resolution set to 1.75x
 
 
 ```
