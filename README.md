@@ -77,41 +77,33 @@ update-desktop-database ~/.local/share/applications
 pipx upgrade maestral
 ```
 
-
-### zed + terra repo
-
-
-Info at website: https://terra.fyralabs.com/
-```
-sudo dnf install --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' --setopt='terra.gpgkey=https://repos.fyralabs.com/terra$releasever/key.asc' terra-release
-sudo snd install zed
-```
-
-
 ### ffmpeg + RPMFusion
 
 
 ```
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-sudo dnf config-manager --enable fedora-cisco-openh264
+sudo dnf update @core
 ```
 
+Change to full ffmpeg
+```
+sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+```
 
+I use AMD, so:
 ```
 sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
 sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
 sudo dnf swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686
 sudo dnf swap mesa-vdpau-drivers.i686 mesa-vdpau-drivers-freeworld.i686
-sudo dnf swap ffmpeg-free ffmpeg --allowerasing
-sudo dnf groupupdate multimedia
 ```
 
+Firmware:
+```
+sudo dnf install rpmfusion-nonfree-release-tainted
+sudo dnf --repo=rpmfusion-nonfree-tainted install "*-firmware"
+```
 
-these dont seem necessary:
-```
-sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-sudo dnf update @sound-and-video
-```
 ### Firefox
 
 
