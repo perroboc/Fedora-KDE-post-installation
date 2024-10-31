@@ -2,6 +2,14 @@
 
 The following is completely optional, but have saved me from time to time...
 
+## amdgpu driver crashes under heavy load
+
+It seems that the amdgpu driver sets the top freq of the GPU to what the GPU reports, and this is not always accurate? So the fix is to limit the freq to what's published by the vendor.
+
+1. Search your GPU vendors website info, or in [techpowerup.com](https://www.techpowerup.com). For example, my card is a [Asus TUF RX 7900 XTX OC](https://www.techpowerup.com/gpu-specs/asus-tuf-rx-7900-xtx-gaming-oc.b9931)
+2. Get the Boost Clock speed (in my case, 2565 MHz)
+3. Install CoreCtrl (instructions in the main markdown file), and set the maximum frequency to this value ![image](https://github.com/user-attachments/assets/fa31a96a-1dc6-482d-8ac4-4162125471f1)
+
 ## Can't access some websites
 
 This can be fixed by repopulating a clean `resolv.conf` file:
