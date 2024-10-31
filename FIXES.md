@@ -10,9 +10,24 @@ It seems that the amdgpu driver sets the top freq of the GPU to what the GPU rep
 2. Get the Boost Clock speed (in my case, 2565 MHz)
 3. Install CoreCtrl (instructions in the main markdown file), and set the maximum frequency to this value ![image](https://github.com/user-attachments/assets/fa31a96a-1dc6-482d-8ac4-4162125471f1)
 
+## can't pair my bluetooth device
+
+I got good experiences installing `bluez-tools` and `bluez-deprecated` and then pairing through commandline.
+
+Bluedevil (KDE's interface with bluetooth) might be not doing the right thing. Try pairing through commandline:
+
+1. `sudo systemctl restart bluetooth`
+2. `bluetoothctl` to start a bluetooth control prompt
+3. In the new prompt: `scan on`
+4. Copy the MAC address of the device to pair (example: `[bluetooth]# [NEW] Device 88:C9:XXXXXX WH-1000XM5`)
+5. `connect <MAC>` and it should pair
+6. `quit` from the bluetoothctl prompt
+
+Upon reconnection, KDE might ask for permission to connect. Make sure to click to remember this decision.
+
 ## Can't access some websites
 
-This can be fixed by repopulating a clean `resolv.conf` file:
+DNS name resolution might be acting funny. This can be fixed by repopulating a clean `resolv.conf` file:
 
 ```shell
 sudo systemctl disable --now systemd-resolved
@@ -26,27 +41,6 @@ Check the output when the issue happens before using any workarounds:
 resolvectl --no-pager status
 resolvectl --no-pager query domain.that.works
 resolvectl --no-pager query domain.that.fails
-```
-
-## AMD workaround for system freezes:
-
-Note: Might not be required anymore after disabling OC
-
-```shell
-echo rcu_nocbs=0-$(($(nproc)-1))
-sudo nano /etc/default/grub
-```
-
-Edit kernel parameters:
-
-```
-GRUB_CMDLINE_LINUX="rhgb quiet rcu_nocbs=0-31 pci=nomsi"
-```
-
-Then update grub:
-
-```
-sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 ## Timezone in motherboard
