@@ -116,7 +116,7 @@ sudo dnf distro-sync
 then in games in steam, set it to something like:
 
 ```
-gamescope --hdr-enabled --nested-width 3840 --nested-height 2160 --output-width 3840  --output-height 2160 --fullscreen  %command%
+gamescope --hdr-enabled --nested-width 3840 --nested-height 2160 --output-width 3840  --output-height 2160 --fullscreen -- %command%
 ```
 
 note: make sure to set the resolution correctly!
