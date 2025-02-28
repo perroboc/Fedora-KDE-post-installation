@@ -4,18 +4,37 @@ Updated for Fedora 41
 
 ## General recommendations
 
-Configure the International US Keyboard by setting it to English (US, intl., with dead keys), and setup a `.XCompose` file to ignore useless letters.
+Things I think everyone should do
 
-```
-curl -o $HOME/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/master/.XCompose
-```
-
-## Remove Plasma 6 Bloat
+### Remove Plasma 6 Bloat
 
 ```
 sudo dnf group remove libreoffice
 sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpat kolourpaint kontact kde-connect kmail korganizer kaddressbook akregator krdc krfb mediawriter im-chooser kgpg kmouth kmousetool neochat skanpage plasma-welcome kdebugsettings krdp
 ```
+
+### Flatpak
+
+Disable Fedora flatpak repo:
+```
+flatpak remote-modify fedora --disable
+```
+
+Enable Flathub:
+```
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-modify --no-filter --enable flathub
+```
+
+Some recommendations:
+
+- [Vesktop](https://flathub.org/apps/dev.vencord.Vesktop): Discord alternative with good wayland integration
+- [Haruna](https://flathub.org/apps/org.kde.haruna): Cool video player
+- [Heroic Games Launcher](https://flathub.org/apps/com.heroicgameslauncher.hgl): Install games from GOG, Epic, and Amazon
+- [JamesDSP](https://flathub.org/apps/me.timschneeberger.jdsp4linux): System wide audio equalizer!
+- [OnlyOffice](https://flathub.org/apps/org.onlyoffice.desktopeditors): VERY similar to Microsoft Office, works better than OpenOffice IMHO
+- [Steam](https://flathub.org/apps/com.valvesoftware.Steam): Seems to work great!
+- Would recommend 1password and firefox, too, but they don't talk with each other through flatpak (yet)
 
 ## Firefox settings
 
@@ -35,14 +54,22 @@ sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpa
   - `widget.use-xdg-desktop-portal.file-picker`: `1`
 
 ### Plasma addon
-Make sure you have the [Plasma addon](https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/) installed
 
+Make sure you have the [Plasma addon](https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/) installed
 
 ## Personal preferences
 
 These are personal preferences and how I install them. Might be useful for someone else
 
-## Blender on AMD hardware
+### Set international US Keyboard
+
+Configure the International US Keyboard by setting it to English (US, intl., with dead keys), and setup a `.XCompose` file to ignore useless letters.
+
+```
+curl -o $HOME/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/master/.XCompose
+```
+
+### Blender on AMD hardware
 
 ```
 sudo dnf install rocm-hip rocm-hip-devel
@@ -110,7 +137,7 @@ Upgrade if required:
 pipx upgrade maestral
 ```
 
-## CoreCtrl
+### CoreCtrl
 
 Allows to set the GPU limits and fan speeds.
 
@@ -175,13 +202,3 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
 
 And reboot!
-
-## Flatpak recommendations:
-
-- Vesktop (Discord alternative with good wayland integration)
-- Haruna (Cool video player)
-- Heroic Games Launcher (Install games from GOG, Epic, and Amazon)
-- JamesDSP (Equalizer!)
-- OnlyOffice (VERY similar to Microsoft Office, and works great)
-- Steam (seems to work OK!)
-- Would recommend 1password and firefox, too, but they don't talk with each other through flatpak (yet)
