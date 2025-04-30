@@ -32,6 +32,23 @@ flatpak remote-modify --no-filter --enable flathub
 sudo timedatectl set-local-rtc '0'
 ```
 
+### Enable RPMFusion
+
+Taken from [rpmfusion.org](https://rpmfusion.org/Configuration#Command_Line_Setup_using_rpm)
+
+```
+sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
+sudo dnf install rpmfusion-\*-appstream-data
+```
+
+To enable [full ffmpeg](https://rpmfusion.org/Howto/Multimedia):
+
+```
+sudo dnf swap ffmpeg-free ffmpeg --allowerasing
+sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf install ffmpeg-libs libva libva-utils
+```
 
 ## Personal preferences
 
@@ -50,7 +67,6 @@ Some recommendations:
 
 ```
 flatpak install flathub com.discordapp.Discord
-flatpak install flathub org.kde.haruna
 flatpak install flathub com.heroicgameslauncher.hgl
 flatpak install flathub me.timschneeberger.jdsp4linux
 flatpak install flathub org.onlyoffice.desktopeditors
