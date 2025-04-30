@@ -26,6 +26,12 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak remote-modify --no-filter --enable flathub
 ```
 
+### Set UTC 0 time
+
+```
+sudo timedatectl set-local-rtc '0'
+```
+
 
 ## Personal preferences
 
