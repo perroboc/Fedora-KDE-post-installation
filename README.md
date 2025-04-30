@@ -44,8 +44,8 @@ Some recommendations:
   - `accessibility.force_disabled`: `1`
 - disable pocket
   - `extensions.pocket.enabled`: `false`
-- fix emojis
-  - `font.name-list.emoji`: `Noto Color Emoji`
+- ~fix emojis~
+  - ~`font.name-list.emoji`: `Noto Color Emoji`~
 - Better KDE Plasma integration
   - `media.hardwaremediakeys.enabled`: `false`
 - disable speech synthesis
