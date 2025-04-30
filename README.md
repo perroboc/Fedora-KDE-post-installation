@@ -10,7 +10,7 @@ Things I think everyone should do
 
 ```
 sudo dnf group remove libreoffice
-sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpat kolourpaint kontact kde-connect kmail korganizer kaddressbook akregator krdc krfb mediawriter im-chooser kgpg kmouth kmousetool neochat skanpage plasma-welcome kdebugsettings krdp
+sudo dnf remove libreoffice-core elisa-player dragon kamoso kmahjongg kmines kpat kolourpaint kontact kmail korganizer kaddressbook akregator krdc krfb mediawriter im-chooser kgpg kmouth kmousetool neochat skanpage plasma-welcome kdebugsettings krdp
 ```
 
 ### Flatpak
@@ -74,7 +74,6 @@ curl -o $HOME/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/mas
 ```
 sudo dnf install rocm-hip rocm-hip-devel
 ```
-
 
 ### CoreCtrl
 
