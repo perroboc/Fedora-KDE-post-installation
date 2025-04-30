@@ -59,3 +59,69 @@ Upgrade if required:
 ```
 pipx upgrade maestral
 ```
+
+## CoreCtrl
+
+Allows to set the GPU limits and fan speeds.
+
+Install
+```
+sudo dnf install corectrl
+```
+
+Set to auto start
+```
+cp /usr/share/applications/org.corectrl.CoreCtrl.desktop ~/.config/autostart/org.corectrl.CoreCtrl.desktop
+```
+
+To autostart minimized, go to the bottom **System** tab in CoreCtrl, then select the top **CoreCtrl** tab, and click in the top right corner **Settings** button, and make sure "Start minimized on system tray" is selected.
+![image](https://github.com/user-attachments/assets/cd7f501f-d15a-4e5b-99b3-24799e05c797)
+
+
+Set to not ask for password
+```
+sudo nano /etc/polkit-1/rules.d/90-corectrl.rules
+```
+```
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.corectrl.helper.init" ||
+         action.id == "org.corectrl.helperkiller.init") &&
+        subject.local == true &&
+        subject.active == true &&
+        subject.isInGroup("your-user-group")) {
+            return polkit.Result.YES;
+    }
+});
+```
+Make sure to replace your-user-group with your user group name, which should be your user name! You can check with `groups`.
+```console
+$ groups
+perroboc wheel
+```
+
+Edit Grub
+```
+sudo nano /etc/default/grub
+```
+
+Add this line to it: `GRUB_CMDLINE_LINUX_DEFAULT="rhgb quiet amdgpu.ppfeaturemask=0xffffffff"`.
+
+By default the file should look something like this:
+```
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="rhgb quiet"
+GRUB_CMDLINE_LINUX_DEFAULT="rhgb quiet amdgpu.ppfeaturemask=0xffffffff"
+GRUB_DISABLE_RECOVERY="true"
+GRUB_ENABLE_BLSCFG=true
+```
+
+Then apply it:
+```
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+```
+
+And reboot!
