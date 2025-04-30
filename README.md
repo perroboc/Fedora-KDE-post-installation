@@ -66,6 +66,7 @@ curl -o $HOME/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/mas
 Some recommendations:
 
 ```
+sudo dnf install haruna
 flatpak install flathub com.discordapp.Discord
 flatpak install flathub com.heroicgameslauncher.hgl
 flatpak install flathub me.timschneeberger.jdsp4linux
