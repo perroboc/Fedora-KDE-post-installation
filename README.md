@@ -32,6 +32,12 @@ flatpak remote-modify --no-filter --enable flathub
 sudo timedatectl set-local-rtc '0'
 ```
 
+### Blender on AMD hardware
+
+```
+sudo dnf install rocm-hip rocm-hip-devel
+```
+
 ### Enable RPMFusion
 
 Taken from [rpmfusion.org](https://rpmfusion.org/Configuration#Command_Line_Setup_using_rpm)
@@ -48,6 +54,26 @@ To enable [full ffmpeg](https://rpmfusion.org/Howto/Multimedia):
 sudo dnf swap ffmpeg-free ffmpeg --allowerasing
 sudo dnf update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 sudo dnf install ffmpeg-libs libva libva-utils
+```
+
+Hardware Accelerated Codec:
+
+AMD:
+```
+sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+sudo dnf swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686
+sudo dnf swap mesa-vdpau-drivers.i686 mesa-vdpau-drivers-freeworld.i686
+```
+
+Intel:
+```
+sudo dnf install intel-media-driver
+```
+
+Nvidia:
+```
+sudo dnf install libva-nvidia-driver.{i686,x86_64}
 ```
 
 ## Personal preferences
@@ -90,12 +116,11 @@ flatpak install flathub org.onlyoffice.desktopeditors
 - use native KDE file dialog
   - `widget.use-xdg-desktop-portal.file-picker`: `1`
 
+### HW Acceleration
+
+Enable OpenH264 Plugin in Firefox's settings.
+![image](https://github.com/user-attachments/assets/c795f640-e84f-4c99-a350-5e12b4151f37)
+
 ### Plasma addon
 
 Make sure you have the [Plasma addon](https://addons.mozilla.org/en-US/firefox/addon/plasma-integration/) installed
-
-### Blender on AMD hardware
-
-```
-sudo dnf install rocm-hip rocm-hip-devel
-```
