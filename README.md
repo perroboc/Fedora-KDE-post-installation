@@ -1,6 +1,6 @@
 # Fedora-KDE-post-installation
 
-Updated for Fedora 41
+Updated for Fedora 42
 
 ## General recommendations
 
