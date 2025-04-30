@@ -30,6 +30,7 @@ flatpak remote-modify --no-filter --enable flathub
 
 ```
 sudo timedatectl set-local-rtc '0'
+sudo timedatectl set-ntp true
 ```
 
 ### Blender on AMD hardware
