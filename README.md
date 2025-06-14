@@ -26,6 +26,12 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 flatpak remote-modify --no-filter --enable flathub
 ```
 
+Enable dark themes for GTK apps ([source](https://www.reddit.com/r/kde/comments/ujqih9/plasma_consistent_flatpak_theming/)):
+```
+flatpak install org.gtk.Gtk3theme.Breeze org.gtk.Gtk3theme.Breeze-Dark
+sudo flatpak override --system --filesystem=xdg-config/gtk-3.0:ro --filesystem=xdg-config/gtkrc-2.0:ro --filesystem=xdg-config/gtk-4.0:ro --filesystem=xdg-config/gtkrc:ro
+```
+
 ### Set UTC 0 time
 
 ```
