@@ -7,6 +7,12 @@ sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https:/
 sudo dnf install 1password
 ```
 
+To enable file selection>
+```
+echo "kernel.yama.ptrace_scope=1" | sudo tee -a /etc/sysctl.d/99-ptrace-scope.conf
+sudo sysctl --system
+```
+
 To autostart minimized, add it to the Autostart settings, and add the `--silent` argument at the end.
 
 ![image](https://github.com/user-attachments/assets/e7f292fc-b5ec-4523-a4c9-660e6d60cc8d)
