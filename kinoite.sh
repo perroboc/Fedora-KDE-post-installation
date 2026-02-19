@@ -27,7 +27,6 @@ EOF
   rpm-ostree install \
     1password \
     fcitx5 \
-    fcitx5-autostart \
     fcitx5-configtool \
     fcitx5-gtk \
     fcitx5-qt
@@ -91,9 +90,6 @@ EOF
 echo "    user.js written to $FF_PROFILE"
 
 echo "--- fcitx5 configuration ---"
-# Set fcitx5 as KDE's virtual keyboard (KWin manages the lifecycle)
-kwriteconfig6 --file kwinrc --group Wayland --key InputMethod /usr/share/applications/org.fcitx.Fcitx5.desktop
-
 # Set system keyboard layout to US International (matches fcitx5 profile)
 kwriteconfig6 --file kxkbrc --group Layout --key Use true
 kwriteconfig6 --file kxkbrc --group Layout --key LayoutList us
@@ -109,6 +105,12 @@ EOF
 
 # .XCompose for US International keyboard (Windows-style dead keys)
 curl -o ~/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/master/.XCompose
+
+# Hide default maliit input method from system tray
+PLASMA_RC=~/.config/plasma-org.kde.plasma.desktop-appletsrc
+if [ -f "$PLASMA_RC" ]; then
+  sed -i 's/,org\.kde\.plasma\.manage-inputmethod//g; s/org\.kde\.plasma\.manage-inputmethod,//g; s/org\.kde\.plasma\.manage-inputmethod//g' "$PLASMA_RC"
+fi
 
 # fcitx5 input method profile
 mkdir -p ~/.config/fcitx5
