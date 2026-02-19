@@ -27,6 +27,7 @@ EOF
   rpm-ostree install \
     1password \
     fcitx5 \
+    fcitx5-autostart \
     fcitx5-configtool \
     fcitx5-gtk \
     fcitx5-qt
@@ -34,9 +35,6 @@ EOF
   echo "--- Hardware clock ---"
   sudo timedatectl set-local-rtc '0'
   sudo timedatectl set-ntp true
-
-  echo "--- .XCompose ---"
-  curl -o ~/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/master/.XCompose
 
   echo ""
   echo "=== Phase 1 complete. Reboot and run this script again. ==="
@@ -69,9 +67,8 @@ if [ ! -d "$FLATPAK_FF_DIR" ]; then
   echo "    Creating Firefox profile (first launch)..."
   flatpak run org.mozilla.firefox --headless &>/dev/null &
   FF_PID=$!
-  # Wait for the profile directory to appear
   for i in $(seq 1 30); do
-    if find "$FLATPAK_FF_DIR" -name "*.default-release" -type d 2>/dev/null | grep -q .; then
+    if [ -d "$FLATPAK_FF_DIR" ] && find "$FLATPAK_FF_DIR" -maxdepth 1 -name "*.default-release" -type d 2>/dev/null | grep -q .; then
       break
     fi
     sleep 1
@@ -80,52 +77,54 @@ if [ ! -d "$FLATPAK_FF_DIR" ]; then
   wait "$FF_PID" 2>/dev/null || true
 fi
 
-PROFILE=$(find "$FLATPAK_FF_DIR" -maxdepth 1 -name "*.default-release" -type d | head -1)
+FF_PROFILE=$(find "$FLATPAK_FF_DIR" -maxdepth 1 -name "*.default-release" -type d | head -1)
 
-if [ -z "$PROFILE" ]; then
+if [ -z "$FF_PROFILE" ]; then
   echo "ERROR: Could not find Firefox profile in $FLATPAK_FF_DIR" >&2
   exit 1
 fi
 
-cat > "$PROFILE/user.js" << 'EOF'
+cat > "$FF_PROFILE/user.js" << 'EOF'
 user_pref("widget.use-xdg-desktop-portal.file-picker", 1);
 user_pref("media.webspeech.synth.enabled", false);
 EOF
-echo "    user.js written to $PROFILE"
+echo "    user.js written to $FF_PROFILE"
 
-echo "--- 1Password + Flatpak Firefox integration ---"
-# Allow Firefox to talk to the host's Flatpak portal
-flatpak override --user --talk-name=org.freedesktop.Flatpak org.mozilla.firefox
+echo "--- fcitx5 configuration ---"
+# Set fcitx5 as KDE's virtual keyboard (KWin manages the lifecycle)
+kwriteconfig6 --file kwinrc --group Wayland --key InputMethod /usr/share/applications/org.fcitx.Fcitx5.desktop
 
-# Create the wrapper script that bridges into the host
-mkdir -p ~/.var/app/org.mozilla.firefox/data/bin
-cat << 'EOF' > ~/.var/app/org.mozilla.firefox/data/bin/1password-wrapper.sh
-#!/bin/bash
-flatpak-spawn --host /opt/1Password/1Password-BrowserSupport "$@"
-EOF
-chmod +x ~/.var/app/org.mozilla.firefox/data/bin/1password-wrapper.sh
+# Set system keyboard layout to US International (matches fcitx5 profile)
+kwriteconfig6 --file kxkbrc --group Layout --key Use true
+kwriteconfig6 --file kxkbrc --group Layout --key LayoutList us
+kwriteconfig6 --file kxkbrc --group Layout --key VariantList intl
 
-# Native messaging manifest so Firefox knows about the extension bridge
-mkdir -p ~/.var/app/org.mozilla.firefox/.mozilla/native-messaging-hosts
-cat << EOF > ~/.var/app/org.mozilla.firefox/.mozilla/native-messaging-hosts/com.1password.1password.json
-{
-  "name": "com.1password.1password",
-  "description": "1Password BrowserSupport",
-  "path": "$HOME/.var/app/org.mozilla.firefox/data/bin/1password-wrapper.sh",
-  "type": "stdio",
-  "allowed_extensions": [
-    "{0a75d802-9aed-41e7-8daa-24c067386e82}",
-    "{25fc87fa-4d31-4fee-b5c1-c32a7844c063}",
-    "{d634138d-c276-4fc8-924b-40a0ea21d284}"
-  ]
-}
+# Environment for XWayland apps
+mkdir -p ~/.config/environment.d
+cat > ~/.config/environment.d/fcitx5.conf << 'EOF'
+XMODIFIERS=@im=fcitx
+GTK_IM_MODULE=
+QT_IM_MODULE=
 EOF
 
-# Whitelist flatpak-session-helper so 1Password accepts the sandboxed connection
-sudo mkdir -p /etc/1password
-echo "flatpak-session-helper" | sudo tee /etc/1password/custom_allowed_browsers > /dev/null
+# .XCompose for US International keyboard (Windows-style dead keys)
+curl -o ~/.XCompose https://raw.githubusercontent.com/raelgc/win_us_intl/master/.XCompose
 
-echo "    1Password bridge configured"
+# fcitx5 input method profile
+mkdir -p ~/.config/fcitx5
+cat > ~/.config/fcitx5/profile << 'EOF'
+[Groups/0]
+Name=Default
+Default Layout=us-intl
+DefaultIM=keyboard-us-intl
+
+[Groups/0/Items/0]
+Name=keyboard-us-intl
+Layout=
+
+[GroupOrder]
+0=Default
+EOF
 
 echo "--- chezmoi ---"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
@@ -156,8 +155,9 @@ update-desktop-database ~/.local/share/applications
 echo ""
 echo "=== Setup complete! ==="
 echo ""
-echo "Remaining manual step:"
-echo "  Add your SSH public key to your Git server, then run:"
-echo "    chezmoi init git@your-server.com:your-user/dotfiles.git"
-echo "    chezmoi diff"
-echo "    chezmoi apply"
+echo "Remaining manual steps:"
+echo "  1. Reboot (or log out/in) for fcitx5 to start via KWin"
+echo "  2. Add your SSH public key to your Git server, then run:"
+echo "       chezmoi init git@your-server.com:your-user/dotfiles.git"
+echo "       chezmoi diff"
+echo "       chezmoi apply"
