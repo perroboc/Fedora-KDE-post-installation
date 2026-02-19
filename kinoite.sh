@@ -1,8 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-# Check if rpm-ostree packages are already installed
-if rpm -q 1password &>/dev/null && rpm -q fcitx5 &>/dev/null && ! rpm -q firefox &>/dev/null; then
+# Phase detection: check if ALL required layered packages are present
+PHASE1_PKGS=(1password fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-qt ksshaskpass)
+ALL_INSTALLED=true
+for pkg in "${PHASE1_PKGS[@]}"; do
+  if ! rpm -q "$pkg" &>/dev/null; then
+    ALL_INSTALLED=false
+    break
+  fi
+done
+
+if [ "$ALL_INSTALLED" = true ]; then
   PHASE=2
 else
   PHASE=1
@@ -22,14 +31,14 @@ repo_gpgcheck=1
 gpgkey=https://downloads.1password.com/linux/keys/1password.asc
 EOF
 
-  echo "--- rpm-ostree: remove Firefox, layer 1Password + fcitx5 ---"
-#  rpm-ostree override remove firefox firefox-langpacks
-  rpm-ostree install \
+  echo "--- rpm-ostree: layer packages ---"
+  rpm-ostree install --idempotent \
     1password \
     fcitx5 \
     fcitx5-configtool \
     fcitx5-gtk \
-    fcitx5-qt
+    fcitx5-qt \
+    ksshaskpass
 
   echo "--- Hardware clock ---"
   sudo timedatectl set-local-rtc '0'
