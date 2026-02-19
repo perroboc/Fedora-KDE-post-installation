@@ -38,8 +38,10 @@ EOF
     fcitx5-configtool \
     fcitx5-gtk \
     fcitx5-qt \
-    ksshaskpass
-
+    ksshaskpass \
+    fzf \
+    ripgrep
+  
   echo "--- Hardware clock ---"
   sudo timedatectl set-local-rtc '0'
   sudo timedatectl set-ntp true
