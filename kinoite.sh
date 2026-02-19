@@ -153,7 +153,7 @@ fi
 echo "--- pipx + Maestral ---"
 python3 -m ensurepip --upgrade
 python3 -m pip install --user pipx
-pipx install "maestral[gui]"
+pipx install "maestral[gui]==1.9.5"
 ln -sf "$(readlink -f "$HOME/.local/bin/maestral")_qt" "$HOME/.local/bin/maestral_qt"
 
 mkdir --parents "$HOME/.local/share/icons"
